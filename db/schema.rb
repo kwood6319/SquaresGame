@@ -10,8 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 0) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_16_094936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
+  create_table "games", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "current_team"
+    t.integer "goal_square"
+    t.integer "grid_x"
+    t.integer "grid_y"
+    t.text "instructions"
+    t.string "status"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "colour"
+    t.datetime "created_at", null: false
+    t.string "entry_point"
+    t.bigint "game_id", null: false
+    t.string "name"
+    t.boolean "on_board"
+    t.integer "position"
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_teams_on_game_id"
+  end
+
+  create_table "turns", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "game_id", null: false
+    t.integer "square"
+    t.bigint "team_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_turns_on_game_id"
+    t.index ["team_id"], name: "index_turns_on_team_id"
+  end
+
+  add_foreign_key "teams", "games"
+  add_foreign_key "turns", "games"
+  add_foreign_key "turns", "teams"
 end
