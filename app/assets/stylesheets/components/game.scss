@@ -1,0 +1,287 @@
+/* Layout */
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.game-sidebar {
+  background: #f8f8f7;
+  border-right: 1px solid #e5e5e3;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sidebar-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-grid-size {
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: #1a1a1a;
+}
+
+/* Team list */
+.team-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.team-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.team-item--active {
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.team-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.team-position {
+  margin-left: auto;
+  font-size: 0.75rem;
+}
+
+.current-team-name {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0.25rem 0;
+}
+
+.current-team-dot {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  margin-top: 0.5rem;
+}
+
+/* Dice */
+.btn-roll {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-right: 0.75rem;
+}
+
+.dice-result {
+  font-size: 1.4rem;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+/* End game */
+.sidebar-section--danger {
+  margin-top: auto;
+}
+
+.btn-end-game {
+  background: none;
+  border: 1px solid #e5e5e3;
+  color: #999;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+.btn-end-game:hover {
+  border-color: #cc0000;
+  color: #cc0000;
+}
+
+/* Board */
+.board-wrap {
+  padding: 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  min-height: 0;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  grid-template-rows: repeat(var(--rows), 1fr);
+  gap: 3px;
+  background: #e5e5e3;
+  border: 3px solid #e5e5e3;
+  border-radius: 8px;
+  overflow: hidden;
+  width: unquote("min(calc(100vh - 6rem), calc(100vw - 300px))");
+  height: unquote("min(calc(100vh - 6rem), calc(100vw - 300px))");
+}
+
+/* Squares */
+.square {
+  background: #fff;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 4px 6px;
+  transition: background 0.15s;
+  min-height: 0;  /* remove the min-height: 60px */
+}
+
+.square:hover {
+  background: #f0f0ef;
+}
+
+.square--goal {
+  background: #f0faf0;
+}
+
+.square--goal:hover {
+  background: #e0f5e0;
+}
+
+.square-number {
+  font-size: 0.65rem;
+  color: #bbb;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.goal-marker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  opacity: 0.4;
+}
+
+.square-teams {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: auto;
+}
+
+.team-token {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid rgba(255,255,255,0.8);
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-backdrop--locked {
+  pointer-events: all;
+
+  .modal-box {
+    pointer-events: all;
+  }
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2.5rem;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  text-align: center;
+  border-top: 6px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.modal-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 1rem;
+}
+
+.modal-instruction {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #1a1a1a;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.btn-dismiss {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.square--visited {
+  background: #d6d6d6 !important;
+  cursor: default;
+  // pointer-events: none;
+}
+
+.square--visited .square-number {
+  color: #bbb;
+}
+
+.goal-marker-win {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}

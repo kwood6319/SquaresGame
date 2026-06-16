@@ -1,0 +1,59 @@
+class GamesController < ApplicationController
+  require "csv"
+
+  def new
+    @game = Game.new
+  end
+
+  def create
+    @game = Game.new(game_params)
+
+    # Parse CSV
+    if params[:game][:instructions_file].present?
+      file = params[:game][:instructions_file]
+      instructions = CSV.read(file.path).flatten.reject(&:blank?)
+      @game.instructions = instructions
+    end
+
+    if @game.save
+      # Create teams
+      params[:teams].each_with_index do |team_params, index|
+        @game.teams.create(
+          name: team_params[:name],
+          colour: team_params[:colour],
+          position: nil,
+          on_board: false,
+          entry_point: nil
+        )
+      end
+
+      # Assign entry points and goal square
+      GameSetupService.new(@game).call
+
+      @game.update(current_team_id: @game.teams.order(:id).first.id)
+
+      redirect_to @game
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def show
+    @game = Game.find(params[:id])
+    @teams = @game.teams.order(:id)
+    @current_team = @game.teams.find_by(id: @game.current_team_id)
+    @total_squares = @game.total_squares
+  end
+
+  def destroy
+    @game = Game.find(params[:id])
+    @game.destroy
+    redirect_to new_game_path, notice: "Game ended."
+  end
+
+  private
+
+  def game_params
+    params.require(:game).permit(:grid_x, :grid_y)
+  end
+end
