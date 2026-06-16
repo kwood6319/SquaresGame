@@ -26,13 +26,10 @@ class GameSetupService
   end
 
   def entry_points
-    grid_x = @game.grid_x
-    grid_y = @game.grid_y
-
-    top    = (0...grid_x).map { |i| "top-#{i}" }
-    bottom = (0...grid_x).map { |i| "bottom-#{i}" }
-    left   = (0...grid_y).map { |i| "left-#{i}" }
-    right  = (0...grid_y).map { |i| "right-#{i}" }
+    top    = (0...@game.grid_x).map { |i| "top-#{i}" }
+    bottom = (0...@game.grid_x).map { |i| "bottom-#{i}" }
+    left   = (0...@game.grid_y).map { |i| "left-#{i}" }
+    right  = (0...@game.grid_y).map { |i| "right-#{i}" }
 
     top + bottom + left + right
   end
@@ -42,10 +39,10 @@ class GameSetupService
     n = index.to_i
 
     case direction
-    when "top"    then n
-    when "bottom" then (@game.grid_y - 1) * @game.grid_x + n
-    when "left"   then n * @game.grid_x
-    when "right"  then n * @game.grid_x + (@game.grid_x - 1)
+    when "top"    then n # row 0, column n
+    when "bottom" then ((@game.grid_y - 1) * @game.grid_x) + n # last row, column n
+    when "left"   then n * @game.grid_x # row n, column 0
+    when "right"  then (n * @game.grid_x) + (@game.grid_x - 1) # row n, last column
     end
   end
 end

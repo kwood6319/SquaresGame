@@ -134,7 +134,7 @@ body {
 .board-wrap {
   padding: 2rem;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   flex: 1;
   min-height: 0;
@@ -153,6 +153,28 @@ body {
   height: unquote("min(calc(100vh - 6rem), calc(100vw - 300px))");
 }
 
+.board-outer {
+  display: grid;
+  grid-template-columns: 40px repeat(var(--cols), 1fr) 40px;
+  grid-template-rows: 40px repeat(var(--rows), 1fr) 40px;
+  gap: 3px;
+  width: #{"min(calc(100vh - 6rem), calc(100vw - 300px))"};
+  height: #{"min(calc(100vh - 6rem), calc(100vw - 300px))"};
+}
+
+.entry-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  background: transparent;
+}
+
+.entry-corner {
+  background: transparent;
+}
+
 /* Squares */
 .square {
   background: #fff;
@@ -163,7 +185,7 @@ body {
   align-items: flex-start;
   padding: 4px 6px;
   transition: background 0.15s;
-  min-height: 0;  /* remove the min-height: 60px */
+  min-height: 0;
 }
 
 .square:hover {

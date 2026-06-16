@@ -27,14 +27,15 @@
           document.getElementById("win-team-name").textContent = "<%= j team_name %> wins!";
           document.getElementById("win-modal").style.display = "flex";
         </script>
-      <% else %>
+      <% elsif notice.start_with?("INSTRUCTION:") %>
+        <% parts = notice.split(":", 3) %>
+        <% colour = parts[1] %>
+        <% instruction = parts[2] %>
         <script>
-          const colour = document.getElementById("turn-team-colour")?.value || "#1a1a1a";
-          const modal = document.getElementById("instruction-modal");
           const box = document.getElementById("instruction-modal-box");
-          document.getElementById("modal-instruction-text").textContent = "<%= j notice %>";
-          box.style.borderTop = `6px solid ${colour}`;
-          modal.style.display = "flex";
+          document.getElementById("modal-instruction-text").textContent = "<%= j instruction %>";
+          box.style.borderTop = "6px solid <%= colour %>";
+          document.getElementById("instruction-modal").style.display = "flex";
         </script>
       <% end %>
     <% end %>
