@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  get "turns/create"
+  get "games/new"
+  get "games/create"
+  get "games/show"
+  get "games/destroy"
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
