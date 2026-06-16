@@ -29,8 +29,12 @@
         </script>
       <% else %>
         <script>
+          const colour = document.getElementById("turn-team-colour")?.value || "#1a1a1a";
+          const modal = document.getElementById("instruction-modal");
+          const box = document.getElementById("instruction-modal-box");
           document.getElementById("modal-instruction-text").textContent = "<%= j notice %>";
-          document.getElementById("instruction-modal").style.display = "flex";
+          box.style.borderTop = `6px solid ${colour}`;
+          modal.style.display = "flex";
         </script>
       <% end %>
     <% end %>

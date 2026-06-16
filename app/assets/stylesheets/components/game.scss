@@ -258,6 +258,8 @@ body {
   width: 90%;
   box-shadow: 0 20px 60px rgba(0,0,0,0.2);
   text-align: center;
+  border-top: 6px solid transparent;
+  transition: border-color 0.2s;
 }
 
 .modal-label {

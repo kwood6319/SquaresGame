@@ -8,10 +8,10 @@
         <h5 class="card-title">Grid Size</h5>
         <div class="row g-3">
           <div class="col">
-            <%= f.input :grid_x, label: "Columns", input_html: { min: 2, max: 20 }, as: :integer %>
+            <%= f.input :grid_x, label: "Columns", input_html: { min: 2, max: 20, value: 10 }, as: :integer %>
           </div>
           <div class="col">
-            <%= f.input :grid_y, label: "Rows", input_html: { min: 2, max: 20 }, as: :integer %>
+            <%= f.input :grid_y, label: "Rows", input_html: { min: 2, max: 20, value: 10 }, as: :integer %>
           </div>
         </div>
       </div>
