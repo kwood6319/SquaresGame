@@ -28,21 +28,24 @@
     <div class="card mb-4">
       <div class="card-body">
         <h5 class="card-title">Teams</h5>
-        <div id="teams-container">
-          <div class="team-fields row g-3 mb-3">
-            <div class="col">
-              <input class="form-control" name="teams[][name]" placeholder="Team name" />
-            </div>
-            <div class="col-auto d-flex align-items-center gap-2">
-              <label>Colour</label>
-              <input type="color" class="form-control form-control-color" name="teams[][colour]" value="#e66465" />
+        <div data-controller="teams">
+          <div id="teams-container">
+            <div class="team-fields row g-3 mb-3">
+              <div class="col">
+                <input class="form-control" name="teams[][name]" placeholder="Team name" />
+              </div>
+              <div class="col-auto d-flex align-items-center gap-2">
+                <label>Colour</label>
+                <input type="color" class="form-control form-control-color" name="teams[][colour]" value="#e66465" />
+              </div>
             </div>
           </div>
+          <button type="button"
+          class="btn btn-outline-secondary btn-sm"
+          data-action="click->teams#addTeam">
+            + Add another team
+          </button>
         </div>
-        <button type="button" class="btn btn-outline-secondary btn-sm"
-        data-action="click->teams#addTeam">
-          + Add another team
-        </button>
       </div>
     </div>
     <%= f.submit "Create Game", class: "btn btn-primary btn-lg" %>
