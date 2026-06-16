@@ -9,7 +9,7 @@ class TurnsController < ApplicationController
 
     if square == @game.goal_square
       @game.update(status: "finished")
-      redirect_to @game, notice: "🏆 WIN:#{@team.name}"
+      redirect_to @game, notice: "WIN:#{@team.name}"
     else
       instruction = @game.random_instruction
       @game.advance_turn

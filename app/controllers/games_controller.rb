@@ -45,6 +45,12 @@ class GamesController < ApplicationController
     @total_squares = @game.total_squares
   end
 
+  def destroy
+    @game = Game.find(params[:id])
+    @game.destroy
+    redirect_to new_game_path, notice: "Game ended."
+  end
+
   private
 
   def game_params

@@ -9,8 +9,7 @@ export default class extends Controller {
 
     // Set placeholder to "Team N"
     clone.querySelectorAll("input[type=text], input:not([type])").forEach(i => {
-      i.value = ""
-      i.placeholder = `Team ${teamCount}`
+      i.value = `Team ${teamCount}`
     })
 
     // Assign a random colour
