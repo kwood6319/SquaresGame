@@ -1,2 +1,113 @@
-<h1>Games#show</h1>
-<p>Find me in app/views/games/show.html.erb</p>
+<div class="active-team-banner" style="border-bottom: 3px solid <%= @current_team&.colour %>;">
+  <span class="banner-label">Now Playing</span>
+  <span class="banner-team-name" style="color: <%= @current_team&.colour %>;">
+    <%= @current_team&.name %>
+  </span>
+</div>
+<div class="game-layout" data-controller="turn dice">
+  <%# Sidebar %>
+  <aside class="game-sidebar">
+    <div class="sidebar-section">
+      <span class="sidebar-label">Game</span>
+      <p class="sidebar-grid-size"><%= @game.grid_x %> × <%= @game.grid_y %></p>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-label">Teams</span>
+      <ul class="team-list">
+        <% @teams.each do |team| %>
+          <li class="team-item <%= 'team-item--active' if team == @current_team %>">
+            <span class="team-dot" style="background-color: <%= team.colour %>;"></span>
+            <span class="team-name"><%= team.name %></span>
+            <span class="team-position text-muted">
+              <% if team.on_board %>
+                Square <%= team.position + 1 %>
+              <% else %>
+                Off board
+              <% end %>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-label">Active Team</span>
+      <p class="current-team-name" style="color: <%= @current_team&.colour %>">
+        <%= @current_team&.name %>
+      </p>
+    </div>
+    <%# Optional dice roller %>
+    <div class="sidebar-section">
+      <span class="sidebar-label">Dice</span>
+      <button class="btn-roll" data-action="click->dice#roll">Roll</button>
+      <span class="dice-result" data-dice-target="result">—</span>
+    </div>
+    <div class="sidebar-section sidebar-section--danger">
+      <%= button_to "End Game", @game, method: :delete,
+          class: "btn-end-game",
+          data: { turbo_confirm: "Are you sure you want to end this game?" } %>
+    </div>
+  </aside>
+  <%# Board %>
+  <main class="board-wrap">
+    <div class="board" style="--cols: <%= @game.grid_x %>; --rows: <%= @game.grid_y %>;">
+      <% visited = @game.visited_squares || [] %>
+      <% @total_squares.times do |i| %>
+        <%
+          teams_here = @teams.select { |t| t.on_board && t.position == i }
+          is_goal    = i == @game.goal_square
+          is_visited = visited.include?(i)
+        %>
+        <div class="square
+              <%= 'square--goal' if is_goal %>
+              <%= 'square--visited' if is_visited %>"
+              data-index="<%= i %>"
+       <%= 'data-action=click->turn#select' unless is_visited %>>
+          <span class="square-number"><%= i + 1 %></span>
+          <div class="square-teams">
+            <% teams_here.each do |team| %>
+              <span class="team-token" style="background-color: <%= team.colour %>;"
+                    title="<%= team.name %>"></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <%# Entry point tokens — teams not yet on board %>
+    <div class="entry-points">
+      <% @teams.reject(&:on_board).each do |team| %>
+        <div class="entry-token"
+             data-entry="<%= team.entry_point %>"
+             style="--team-colour: <%= team.colour %>;">
+          <span class="team-token" style="background-color: <%= team.colour %>;"
+                title="<%= team.name %>"></span>
+          <span class="entry-label"><%= team.name %></span>
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>
+<%# Instruction Modal %>
+<div class="modal-backdrop" id="instruction-modal" style="display:none;">
+  <div class="modal-box">
+    <p class="modal-label">Instruction</p>
+    <p class="modal-instruction" id="modal-instruction-text"></p>
+    <button class="btn-dismiss" onclick="document.getElementById('instruction-modal').style.display='none'">
+      Got it
+    </button>
+  </div>
+</div>
+<%# Win Modal %>
+<div class="modal-backdrop" id="win-modal" style="display:none;">
+  <div class="modal-box">
+    <p class="goal-marker-win">🏆</p>
+    <p class="modal-label">We have a winner!</p>
+    <p class="modal-instruction" id="win-team-name"></p>
+    <%= button_to "Play Again", new_game_path, method: :get, class: "btn-dismiss" %>
+    <%= button_to "End Game", @game, method: :delete, class: "btn-end-game mt-2" %>
+  </div>
+</div>
+<%# Turn form — hidden, submitted by Stimulus %>
+<%= form_with url: game_turns_path(@game), method: :post, id: "turn-form" do |f| %>
+  <%= hidden_field_tag :square, nil, id: "turn-square" %>
+  <%= hidden_field_tag :team_id, @current_team&.id, id: "turn-team-id" %>
+<% end %>

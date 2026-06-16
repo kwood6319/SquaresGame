@@ -30,10 +30,19 @@ class GamesController < ApplicationController
       # Assign entry points and goal square
       GameSetupService.new(@game).call
 
+      @game.update(current_team_id: @game.teams.order(:id).first.id)
+
       redirect_to @game
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def show
+    @game = Game.find(params[:id])
+    @teams = @game.teams.order(:id)
+    @current_team = @game.teams.find_by(id: @game.current_team_id)
+    @total_squares = @game.total_squares
   end
 
   private
