@@ -1,2 +1,50 @@
-<h1>Games#new</h1>
-<p>Find me in app/views/games/new.html.erb</p>
+<%# app/views/games/new.html.erb %>
+<div class="container my-5">
+  <h1 class="mb-4">Set Up Your Game</h1>
+  <%= simple_form_for @game, html: { multipart: true } do |f| %>
+    <%# Grid Size %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Grid Size</h5>
+        <div class="row g-3">
+          <div class="col">
+            <%= f.input :grid_x, label: "Columns", input_html: { min: 2, max: 20 }, as: :integer %>
+          </div>
+          <div class="col">
+            <%= f.input :grid_y, label: "Rows", input_html: { min: 2, max: 20 }, as: :integer %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%# CSV Upload %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Instructions</h5>
+        <%= f.input :instructions_file, as: :file, label: "Upload CSV file" %>
+        <small class="text-muted">CSV should have a single column with one instruction per row.</small>
+      </div>
+    </div>
+    <%# Teams %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Teams</h5>
+        <div id="teams-container">
+          <div class="team-fields row g-3 mb-3">
+            <div class="col">
+              <input class="form-control" name="teams[][name]" placeholder="Team name" />
+            </div>
+            <div class="col-auto d-flex align-items-center gap-2">
+              <label>Colour</label>
+              <input type="color" class="form-control form-control-color" name="teams[][colour]" value="#e66465" />
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline-secondary btn-sm"
+        data-action="click->teams#addTeam">
+          + Add another team
+        </button>
+      </div>
+    </div>
+    <%= f.submit "Create Game", class: "btn btn-primary btn-lg" %>
+  <% end %>
+</div>
