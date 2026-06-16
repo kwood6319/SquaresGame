@@ -13,7 +13,7 @@ class TurnsController < ApplicationController
     else
       instruction = @game.random_instruction
       @game.advance_turn
-      redirect_to @game, notice: instruction
+      redirect_to @game, notice: "INSTRUCTION:#{@team.colour}:#{instruction}"
     end
   end
 end
