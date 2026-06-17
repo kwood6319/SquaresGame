@@ -133,33 +133,33 @@ body {
 /* Board */
 .board-wrap {
   padding: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex: 1;
   min-height: 0;
+  position: relative;
 }
 
 .board {
   display: grid;
-  grid-template-columns: repeat(var(--cols), 1fr);
-  grid-template-rows: repeat(var(--rows), 1fr);
+  grid-template-columns: 24px repeat(var(--cols), 1fr) 24px;
+  grid-template-rows: 24px repeat(var(--rows), 1fr) 24px;
   gap: 3px;
-  background: #e5e5e3;
-  border: 3px solid #e5e5e3;
-  border-radius: 8px;
-  overflow: hidden;
-  width: #{"min(calc(100vh - 6rem), calc(100vw - 300px))"};
-  height: #{"min(calc(100vh - 6rem), calc(100vw - 300px))"};
+  position: absolute;
+  top: 2rem;
+  left: 300px;
+  right: 2rem;
+  bottom: 2rem;
 }
 
 .board-outer {
   display: grid;
-  grid-template-columns: 40px repeat(var(--cols), 1fr) 40px;
-  grid-template-rows: 40px repeat(var(--rows), 1fr) 40px;
+  grid-template-columns: 24px repeat(var(--cols), 1fr) 24px;
+  grid-template-rows: 24px repeat(var(--rows), 1fr) 24px;
   gap: 3px;
-  width: #{"min(calc(100vh - 6rem), calc(100vw - 300px))"};
-  height: #{"min(calc(100vh - 6rem), calc(100vw - 300px))"};
+  position: absolute;
+  top: 2rem;
+  left: 300px;
+  right: 2rem;
+  bottom: 2rem;
 }
 
 .entry-cell {
